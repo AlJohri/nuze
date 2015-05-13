@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <script src="js/vendor/jquery-1.11.3.min.js"></script>
+    <script src="js/vendor/underscore-min.js"></script>
+    <script src="js/vendor/backbone.js"></script>
+    <script src="js/app.js"></script>
+  <ul id="story_list"></ul>
+  <div id="story_detail_wrapper"></div>
+  <script type="text/template" id="story_item">
+    <li>
+      <a href="<%- url %>" data-id="<%- cid %>" class="story" target="_blank"><%- title %></a>
+    </li>
+  </script>
+</body>
+</html>
