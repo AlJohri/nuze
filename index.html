@@ -2,18 +2,148 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+      body {
+        padding-top: 50px;
+      }
+    </style>
   </head>
   <body>
-    <script src="js/vendor/jquery-1.11.3.min.js"></script>
-    <script src="js/vendor/underscore-min.js"></script>
-    <script src="js/vendor/backbone.js"></script>
+
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">NUze</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="#GoCats">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4 col-sm-5 col-xs-12">
+
+        <div class="feed-wrapper">
+          <div id="rss_list"></div>
+          <div id="yak_list"></div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">I just love tweeting about Northwestern so much! #GoCats #Purple</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">I just love tweeting about Northwestern so much! #GoCats #Purple</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">Help @KelloggSchool students celebrate #leadership week: What skills are necessary to be an effective leader? #KelloggLeads</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">Spotted at tonite's @chicagobulls game: @NorthwesternU President Morty Schapiro &amp; North West dad @kanyewest! #B1GCats</p>
+              <img class="img-responsive" src="img/kanye.jpg">
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">Provost Dan Linzer and Executive VP Nim Chinniah now joining President Schapiro for a panel discussion. #NUConversations</p>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">Star gaze tonight @NUDearborn with a telescope older than the theory of general relativity</p>
+              <img class="img-responsive" src="img/tellescope.jpg">
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
+            <div class="content-wrapper">
+              <p><strong>Northwestern News</strong> @Northwestern U </p>
+              <p class="lead">Four students and one alumnus from @BienenSchoolNU will perform today at 5:00pm CST @kencen in D.C. Watch it live: http://bit.ly/1yMoK3n</p>
+            </div>
+          </div>
+        </div>
+        </div>
+        <i class="fa fa-caret-right fa-5x"></i>
+        <div class="col-md-8 col-sm-7 col-xs-0">
+          <div class="enlarge-wrapper">
+            <div class="enlarge-header">
+              <img class="img-responsive logo" src="img/logo.jpg">
+              <p class="enlarge-text"><strong>Northwestern News</strong> @Northwestern U </p>
+              <i class="fa fa-twitter fa-3x"></i>
+            </div>
+            <img class="img-responsive" src="img/kanye.jpg">
+            <p class="lead enlarge-tweet">Spotted at tonite's @chicagobulls game: @NorthwesternU President Morty Schapiro &amp; North West dad @kanyewest! #B1GCats</p>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.0/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <script src="js/app.js"></script>
-  <ul id="story_list"></ul>
-  <div id="story_detail_wrapper"></div>
-  <script type="text/template" id="story_item">
-    <li>
-      <a href="<%- url %>" data-id="<%- cid %>" class="story" target="_blank"><%- title %></a>
-    </li>
-  </script>
-</body>
+
+    <script type="text/template" id="story_item">
+      <div class="feed-item">
+        <div class="logo-wrapper"><img width="48px" src="img/dailylogo.jpeg"></img></div>
+        <div class="content-wrapper">
+          <p><strong>Daily Northwestern</strong></p>
+          <a href="<%- url %>" data-id="<%- cid %>" class="story" target="_blank"><p class="lead"><%- title %></p></a>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="yak_item">
+      <div class="feed-item">
+        <div class="logo-wrapper"><img width="48px" src="img/yikyaklogo.png"></img></div>
+        <div class="content-wrapper">
+          <p><strong>Yik Yak</strong></p>
+          <p class="lead"><%- message%></p>
+        </div>
+      </div>
+    </script>
+
+  </body>
+
 </html>
