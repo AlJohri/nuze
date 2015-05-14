@@ -10,7 +10,7 @@ auth = tweepy.OAuthHandler(os.getenv("TWITTER_CONSUMER_KEY"), os.getenv("TWITTER
 auth.set_access_token(os.getenv("TWITTER_ACCESS_TOKEN"), os.getenv("TWITTER_ACCESS_SECRET"))
 twitter_api = tweepy.API(auth)
 
-instagram_api = InstagramAPI(os.getenv("INSTAGRAM_CLIENT_ID"), os.getenv("INSTAGRAM_CLIENT_SECRET"))
+instagram_api = InstagramAPI(client_id=os.getenv("INSTAGRAM_CLIENT_ID"), client_secret=os.getenv("INSTAGRAM_CLIENT_SECRET"))
 
 app = Flask(__name__)
 
