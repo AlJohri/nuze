@@ -93,11 +93,11 @@ $(function(){
     }});
 
     feedview.collections.YakList.on('sync', function(collection) {
-      console.log('yaks are loaded', collection);
+      // console.log('yaks are loaded', collection);
     });
 
     feedview.collections.YakList.on('add', function(yak) {
-      console.log('new yak', yak);
+      // console.log('new yak', yak);
       feedview.renderOneYak(yak);
     });
 
@@ -128,7 +128,7 @@ $(function(){
             },
             success: function(data) {
                 _(data.responseData.feed.entries).each(function(entry) {
-                    console.log(entry.title);
+                    // console.log(entry.title);
                     var m = new RSSItem({
                         source:name,
                         logo:logos[name],
