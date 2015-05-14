@@ -91,8 +91,8 @@ twitter_handles = [
 	"COPE_NU"
 ]
 
-@cross_origin()
 @app.route('/twitter')
+@cross_origin()
 def twitter():
 
 	public_tweets = []
@@ -102,8 +102,8 @@ def twitter():
 	results = json.dumps([tweet.text for tweet in public_tweets])
 	return results
 
-@cross_origin()
 @app.route('/instagram')
+@cross_origin()
 def instagram():
 	your_location = instagram_api.media_search(count=100, lat=lat, lng=lng, distance=1500)
 	results = json.dumps([media.images['standard_resolution'].url for media in your_location])
