@@ -3,12 +3,13 @@ $(function(){
     // YikYak Views
 
     var YakListView = Backbone.View.extend({
+        limit: 10,
         el: "#yak_list",
         render: function() {
             var self = this;
             this.collection.each(function(story) {
                 var $iv = new YakItemView({model:story}).render().$el;
-                self.$el.append($iv);
+                self.$el.prepend($iv);
             });
         }
     })
@@ -34,15 +35,13 @@ $(function(){
             var self = this;
             this.collection.each(function(story) {
                 var $iv = new RSSItemView({model:story}).render().$el;
-                self.$el.append($iv);
+                self.$el.prepend($iv);
             });
         }
     });
 
     var RSSItemView = Backbone.View.extend({
-        events: {
-            "click a.story": "clickedStory"
-        },
+        events: { "click a.story": "clickedStory" },
         template: $('#story_item').html(),
         render: function() {
             var variables = _.extend({cid:this.model.cid}, this.model.toJSON());
