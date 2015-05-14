@@ -89,8 +89,18 @@
       <div class="feed-item">
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
-          <p><strong>Yik Yak</strong></p>
+          <p><strong><%- source %></strong></p>
           <p class="lead"><%- message %></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="insta_item">
+      <div class="feed-item">
+        <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
+        <div class="content-wrapper">
+          <p><strong><%- source %></strong></p>
+          <img src="<%- url %>"></img>
         </div>
       </div>
     </script>

@@ -15,7 +15,8 @@ $(function(){
             this.$el.prepend($iv);
         },
         renderOneInstaItem: function(pic) {
-            var $iv = new RSSItemView({model:pic}).render().$el;
+            // debugger;
+            var $iv = new InstaItemView({model:pic}).render().$el;
             this.$el.prepend($iv);
         }
         // render: function() {
@@ -71,7 +72,10 @@ $(function(){
         }
     });
 
-    var InstaItem = Backbone.Model.extend({ idAttribute: "url" });
+    var InstaItem = Backbone.Model.extend({
+        idAttribute: "url",
+        defaults: { source: "Instagram", logo: "img/instagramlogo.gif" }
+    });
     var InstaList = Backbone.Collection.extend({
         initialize: function() {
             this.name = "InstaItem";
@@ -92,7 +96,7 @@ $(function(){
     // Yik Yak Models / Collections
 
     var YakItem = Backbone.Model.extend({
-        defaults: { logo: "img/yikyaklogo.png" }
+        defaults: { source: "Yik Yak", logo: "img/yikyaklogo.png" }
     });
     var YakList = Backbone.Firebase.Collection.extend({
         initialize: function() {
@@ -127,7 +131,6 @@ $(function(){
         "NNN": "http://nnn.medill.northwestern.edu/feed/",
         "Sherman Ave": "http://sherman-ave.com/feed/"
     }
-    console.log("fetching feeds...");
 
     var logos = {
         "Daily Northwestern": "img/dailylogo.jpeg",
@@ -135,8 +138,11 @@ $(function(){
         "North By Northwestern": "img/nbnlogo1.png",
         "NNN": "img/nnnlogo.jpg",
         "Sherman Ave": "img/shermanlogo2.jpeg",
-        "Yik Yak": "img/yikyaklogo.png"
+        "Yik Yak": "img/yikyaklogo.png",
+        "Instagram": "img/instagramlogo.gif"
     }
+
+    console.log("fetching feeds...");
 
     _.each(feeds, function(feed, name) {
         $.ajax({
@@ -162,6 +168,8 @@ $(function(){
 
         });
     })
+
+    console.log("fetching instagram...");
 
     $.ajax({
         url: "http://nuze.herokuapp.com/instagram",
