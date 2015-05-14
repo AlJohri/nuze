@@ -11,21 +11,25 @@ $(function(){
             var $iv = new YakItemView({model:yak}).render().$el;
             self.$el.prepend($iv);
         },
-        render: function() {
+        renderOneRSSItem: function(story) {
             var self = this;
-            _.each(_.values(this.collections), function(collection) {
-                collection.each(function(story) {
-                    // debugger;
-                    if(collection.name == "RSSItem") {
-                        var $iv = new RSSItemView({model:story}).render().$el;
-                    }
-                    else {
-                        var $iv = new YakItemView({model:story}).render().$el;
-                    }
-                    self.$el.prepend($iv);
-                });
-            });
+            var $iv = new RSSItemView({model:story}).render().$el;
+            self.$el.prepend($iv);
         }
+        // render: function() {
+        //     var self = this;
+        //     _.each(this.collections, function(collection, key) {
+        //         collection.each(function(story) {
+        //             if(collection.name == "RSSItem") {
+        //                 var $iv = new RSSItemView({model:story}).render().$el;
+        //             }
+        //             else {
+        //                 var $iv = new YakItemView({model:story}).render().$el;
+        //             }
+        //             self.$el.prepend($iv);
+        //         });
+        //     });
+        // }
     })
 
     var YakItemView = Backbone.View.extend({
@@ -67,7 +71,11 @@ $(function(){
 
     // Yik Yak Models / Collections
 
-    var YakItem = Backbone.Model.extend({ });
+    var YakItem = Backbone.Model.extend({
+        defaults: {
+            logo: "img/yikyaklogo.png"
+        }
+    });
     var YakList = Backbone.Firebase.Collection.extend({
         initialize: function() {
             this.name = "YakItem";
@@ -93,25 +101,48 @@ $(function(){
       feedview.renderOneYak(yak);
     });
 
-    var feed = "http://dailynorthwestern.com/feed/"
-    console.log("fetching feed...");
+    var feeds = {
+        "Daily Northwestern": "http://dailynorthwestern.com/feed/",
+        "Northwestern News": "http://www.northwestern.edu/newscenter/feeds/all-stories.xml",
+        "North By Northwestern": "http://www.northbynorthwestern.com/feed/rss/",
+        "NNN": "http://nnn.medill.northwestern.edu/feed/",
+        "Sherman Ave": "http://sherman-ave.com/feed/"
+    }
+    console.log("fetching feeds...");
 
-    $.ajax({
-        url: "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=6",
-        dataType: "jsonp",
-        data: {
-            q: feed
-        },
-        success: function(data) {
-            _(data.responseData.feed.entries).each(function(entry) {
-                console.log(entry.title);
-                var m = new RSSItem({title:entry.title, desc:entry.content, url: entry.link});
-                feedview.collections.RSSList.add(m);
-            });
-            feedview.render();
-        }
+    var logos = {
+        "Daily Northwestern": "img/dailylogo.jpeg",
+        "Northwestern News": "img/nulogo.jpg",
+        "North By Northwestern": "img/nbnlogo1.png",
+        "NNN": "img/nnnlogo.jpg",
+        "Sherman Ave": "img/shermanlogo2.jpeg",
+        "Yik Yak": "img/yikyaklogo.png"
+    }
 
-    });
+    _.each(feeds, function(feed, name) {
+        $.ajax({
+            url: "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=6",
+            dataType: "jsonp",
+            data: {
+                q: feed
+            },
+            success: function(data) {
+                _(data.responseData.feed.entries).each(function(entry) {
+                    console.log(entry.title);
+                    var m = new RSSItem({
+                        source:name,
+                        logo:logos[name],
+                        title:entry.title,
+                        desc:entry.content,
+                        url: entry.link
+                    });
+                    feedview.collections.RSSList.add(m);
+                    feedview.renderOneRSSItem(m);
+                });
+            }
+
+        });
+    })
 
     var isValidFeed = function(url) {
         return true;

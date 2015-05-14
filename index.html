@@ -82,9 +82,9 @@
 
     <script type="text/template" id="story_item">
       <div class="feed-item">
-        <div class="logo-wrapper"><img width="48px" src="img/dailylogo.jpeg"></img></div>
+        <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
-          <p><strong>Daily Northwestern</strong></p>
+          <p><strong><%- source %></strong></p>
           <a href="<%- url %>" data-id="<%- cid %>" class="story" target="_blank"><p class="lead"><%- title %></p></a>
         </div>
       </div>
@@ -92,7 +92,7 @@
 
     <script type="text/template" id="yak_item">
       <div class="feed-item">
-        <div class="logo-wrapper"><img width="48px" src="img/yikyaklogo.png"></img></div>
+        <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
           <p><strong>Yik Yak</strong></p>
           <p class="lead"><%- message %></p>
