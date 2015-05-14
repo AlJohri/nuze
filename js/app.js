@@ -7,14 +7,16 @@ $(function(){
             // this.listenTo(this.collections.YakList, 'add', this.renderOne);
         },
         renderOneYak: function(yak) {
-            var self = this;
             var $iv = new YakItemView({model:yak}).render().$el;
-            self.$el.prepend($iv);
+            this.$el.prepend($iv);
         },
         renderOneRSSItem: function(story) {
-            var self = this;
             var $iv = new RSSItemView({model:story}).render().$el;
-            self.$el.prepend($iv);
+            this.$el.prepend($iv);
+        },
+        renderOneInstaItem: function(pic) {
+            var $iv = new RSSItemView({model:pic}).render().$el;
+            this.$el.prepend($iv);
         }
         // render: function() {
         //     var self = this;
@@ -30,6 +32,16 @@ $(function(){
         //         });
         //     });
         // }
+    })
+
+    var InstaItemView = Backbone.View.extend({
+        template: $("#insta_item").html(),
+        render: function() {
+            var variables = _.extend({cid:this.model.cid}, this.model.toJSON());
+            var template = _.template(this.template, variables);
+            this.$el.html(template);
+            return this;
+        }
     })
 
     var YakItemView = Backbone.View.extend({
@@ -59,6 +71,14 @@ $(function(){
         }
     });
 
+    var InstaItem = Backbone.Model.extend({ idAttribute: "url" });
+    var InstaList = Backbone.Collection.extend({
+        initialize: function() {
+            this.name = "InstaItem";
+        },
+        model: InstaList,
+    })
+
     // RSS Models / Collections
 
     var RSSItem = Backbone.Model.extend({ idAttribute: "url" });
@@ -72,9 +92,7 @@ $(function(){
     // Yik Yak Models / Collections
 
     var YakItem = Backbone.Model.extend({
-        defaults: {
-            logo: "img/yikyaklogo.png"
-        }
+        defaults: { logo: "img/yikyaklogo.png" }
     });
     var YakList = Backbone.Firebase.Collection.extend({
         initialize: function() {
@@ -89,7 +107,8 @@ $(function(){
 
     var feedview = new FeedView({ collections: {
         RSSList : new RSSList(),
-        YakList : new YakList()
+        YakList : new YakList(),
+        InstaList : new InstaList(),
     }});
 
     feedview.collections.YakList.on('sync', function(collection) {
@@ -143,6 +162,20 @@ $(function(){
 
         });
     })
+
+    $.ajax({
+        url: "http://nuze.herokuapp.com/instagram",
+        dataType: "json",
+        success: function(data) {
+            _(data).each(function(pic) {
+                var m = new InstaItem({
+                    url: pic
+                });
+                feedview.collections.InstaList.add(m);
+                feedview.renderOneInstaItem(m);
+            }
+        )}
+    });
 
     var isValidFeed = function(url) {
         return true;

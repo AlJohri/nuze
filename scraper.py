@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, send_file
+from flask.ext.cors import cross_origin
 from instagram.client import InstagramAPI
 import tweepy
 import os
@@ -90,6 +91,7 @@ twitter_handles = [
 	"COPE_NU"
 ]
 
+@cross_origin()
 @app.route('/twitter')
 def twitter():
 
@@ -100,6 +102,7 @@ def twitter():
 	results = json.dumps([tweet.text for tweet in public_tweets])
 	return results
 
+@cross_origin()
 @app.route('/instagram')
 def instagram():
 	your_location = instagram_api.media_search(count=100, lat=lat, lng=lng, distance=1500)
