@@ -15,8 +15,11 @@ $(function(){
             this.$el.prepend($iv);
         },
         renderOneInstaItem: function(pic) {
-            // debugger;
             var $iv = new InstaItemView({model:pic}).render().$el;
+            this.$el.prepend($iv);
+        },
+        renderOneTweet: function(tweet) {
+            var $iv = new TweetItemView({model:tweet}).render().$el;
             this.$el.prepend($iv);
         }
         // render: function() {
@@ -35,6 +38,16 @@ $(function(){
         // }
     })
 
+    var TweetItemView = Backbone.View.extend({
+        template: $("#tweet_item").html(),
+        render: function() {
+            var variables = _.extend({cid:this.model.cid}, this.model.toJSON());
+            var template = _.template(this.template, variables);
+            this.$el.html(template);
+            return this;
+        }
+    });
+
     var InstaItemView = Backbone.View.extend({
         template: $("#insta_item").html(),
         render: function() {
@@ -43,7 +56,7 @@ $(function(){
             this.$el.html(template);
             return this;
         }
-    })
+    });
 
     var YakItemView = Backbone.View.extend({
         template: $('#yak_item').html(),
@@ -56,7 +69,7 @@ $(function(){
             this.$el.html(template);
             return this;
         }
-    })
+    });
 
     var RSSItemView = Backbone.View.extend({
         events: { "click a.story": "clickedStory" },
@@ -72,26 +85,21 @@ $(function(){
         }
     });
 
+    var TweetItem = Backbone.Model.extend({
+        defaults: { source: "Twitter", logo: "img/twitterlogo.png" }
+    })
+    var TweetList = Backbone.Collection.extend({ model: TweetItem });
+
     var InstaItem = Backbone.Model.extend({
         idAttribute: "url",
         defaults: { source: "Instagram", logo: "img/instagramlogo.gif" }
     });
-    var InstaList = Backbone.Collection.extend({
-        initialize: function() {
-            this.name = "InstaItem";
-        },
-        model: InstaList,
-    })
+    var InstaList = Backbone.Collection.extend({ model: InstaList });
 
     // RSS Models / Collections
 
     var RSSItem = Backbone.Model.extend({ idAttribute: "url" });
-    var RSSList = Backbone.Collection.extend({
-        initialize: function() {
-            this.name = "RSSItem";
-        },
-        model: RSSItem,
-    });
+    var RSSList = Backbone.Collection.extend({ model: RSSItem });
 
     // Yik Yak Models / Collections
 
@@ -113,6 +121,7 @@ $(function(){
         RSSList : new RSSList(),
         YakList : new YakList(),
         InstaList : new InstaList(),
+        TweetList : new TweetList(),
     }});
 
     feedview.collections.YakList.on('sync', function(collection) {
@@ -139,7 +148,8 @@ $(function(){
         "NNN": "img/nnnlogo.jpg",
         "Sherman Ave": "img/shermanlogo2.jpeg",
         "Yik Yak": "img/yikyaklogo.png",
-        "Instagram": "img/instagramlogo.gif"
+        "Instagram": "img/instagramlogo.gif",
+        "Twitter": "img/twitterlogo.png",
     }
 
     console.log("fetching feeds...");
@@ -169,6 +179,10 @@ $(function(){
         });
     })
 
+    var isValidFeed = function(url) {
+        return true;
+    };
+
     console.log("fetching instagram...");
 
     $.ajax({
@@ -185,8 +199,20 @@ $(function(){
         )}
     });
 
-    var isValidFeed = function(url) {
-        return true;
-    };
+    console.log("fetching tweets...");
+
+    $.ajax({
+        url: "http://nuze.herokuapp.com/twitter",
+        dataType: "json",
+        success: function(data) {
+            _(data).each(function(tweet) {
+                var m = new TweetItem({
+                    message: tweet
+                });
+                feedview.collections.TweetList.add(m);
+                feedview.renderOneTweet(m);
+            }
+        )}
+    });
 
 });

@@ -39,15 +39,6 @@
         <div class="col-md-4 col-sm-5 col-xs-12">
           <div class="feed-wrapper">
             <div id="feed"></div>
-            <!--
-            <div class="feed-item">
-                <div class="logo-wrapper"><i class="fa fa-twitter fa-3x"></i></div>
-                <div class="content-wrapper">
-                  <p><strong>Northwestern News</strong> @Northwestern U </p>
-                  <p class="lead">Four students and one alumnus from @BienenSchoolNU will perform today at 5:00pm CST @kencen in D.C. Watch it live: http://bit.ly/1yMoK3n</p>
-                </div>
-            </div>
-            -->
           </div>
         </div>
         <i class="fa fa-caret-right fa-5x"></i>
@@ -102,6 +93,17 @@
           <p><strong><%- source %></strong></p>
           <img src="<%- url %>"></img>
         </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="tweet_item">
+      <div class="feed-item">
+          <!-- <i class="fa fa-twitter fa-3x"></i> -->
+          <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
+          <div class="content-wrapper">
+            <p><strong>Name</strong> @handle </p>
+            <p class="lead"><%- message %></p>
+          </div>
       </div>
     </script>
 
