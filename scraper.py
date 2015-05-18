@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, jsonify, make_response
 from flask.ext.cors import cross_origin
 from instagram.client import InstagramAPI
 import tweepy
@@ -6,6 +6,11 @@ import os
 import json
 
 lat, lng = 42.057796,-87.676634
+
+ENV_VARS = ["TWITTER_CONSUMER_KEY", "TWITTER_CONSUMER_SECRET", "TWITTER_ACCESS_TOKEN", "TWITTER_ACCESS_SECRET", "INSTAGRAM_CLIENT_ID", "INSTAGRAM_CLIENT_SECRET"]
+for env in ENV_VARS:
+	if not os.getenv(env):
+		raise Exception("Please source .secret file. Variable %s was missing." % env)
 
 auth = tweepy.OAuthHandler(os.getenv("TWITTER_CONSUMER_KEY"), os.getenv("TWITTER_CONSUMER_SECRET"))
 auth.set_access_token(os.getenv("TWITTER_ACCESS_TOKEN"), os.getenv("TWITTER_ACCESS_SECRET"))
@@ -99,14 +104,27 @@ def twitter():
 	for handle in twitter_handles[:2]:
 		public_tweets += twitter_api.user_timeline(handle)
 
-	results = json.dumps([tweet.text for tweet in public_tweets])
+	results = json.dumps([{
+		"id": tweet.id,
+		"username": tweet.user.screen_name,
+		"text": tweet.text,
+		"created_at": tweet.created_at.strftime("%c")
+	} for tweet in public_tweets])
+
 	return results
 
 @app.route('/instagram')
 @cross_origin()
 def instagram():
 	your_location = instagram_api.media_search(count=100, lat=lat, lng=lng, distance=1500)
-	results = json.dumps([media.images['standard_resolution'].url for media in your_location])
+
+	results = json.dumps([{
+		"id": media.id,
+		"username": media.user.username,
+		"caption": media.caption.text if media.caption else "",
+		"created_time": media.created_time.strftime("%c"),
+		"url": media.images['standard_resolution'].url
+	} for media in your_location])
 	return results
 
 if __name__ == '__main__':

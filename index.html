@@ -56,21 +56,12 @@
       </div>
     </div> <!-- /container -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.0/underscore-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
-    <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script src="js/app.js"></script>
-
     <script type="text/template" id="story_item">
       <div class="feed-item">
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
           <p><strong><%- source %></strong></p>
+          <p><%- date %></p>
           <a href="<%- url %>" data-id="<%- cid %>" class="story" target="_blank"><p class="lead"><%- title %></p></a>
         </div>
       </div>
@@ -81,6 +72,7 @@
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
           <p><strong><%- source %></strong></p>
+          <p><%- date %></p>
           <p class="lead"><%- message %></p>
         </div>
       </div>
@@ -90,7 +82,8 @@
       <div class="feed-item">
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
-          <p><strong><%- source %></strong></p>
+          <p><strong>Name</strong> <%- username %> </p>
+          <p><%- date %></p>
           <img src="<%- url %>"></img>
         </div>
       </div>
@@ -101,11 +94,22 @@
           <!-- <i class="fa fa-twitter fa-3x"></i> -->
           <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
           <div class="content-wrapper">
-            <p><strong>Name</strong> @handle </p>
+            <p><strong>Name</strong> <%- username %> </p>
+            <p><%- date %></p>
             <p class="lead"><%- message %></p>
           </div>
       </div>
     </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.0/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="js/app.js"></script>
 
   </body>
 
