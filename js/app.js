@@ -11,7 +11,6 @@ var FeedView = Backbone.View.extend({
         this.listenTo(this.collection, 'add', this.render);
     },
     detectScroll: function() {
-        console.log('detected');
         var self = this;
         var fromTop = $(window).scrollTop();
 
@@ -19,32 +18,22 @@ var FeedView = Backbone.View.extend({
         var arrowBottom = $("body > div > div > i")[0].getBoundingClientRect().bottom;
 
         _(self.$el.children()).every(function(item){
-            console.log(item.getBoundingClientRect().top, item.getBoundingClientRect().bottom, arrowTop, arrowBottom);
+            // console.log(item.getBoundingClientRect().top, item.getBoundingClientRect().bottom, arrowTop, arrowBottom);
             if (item.getBoundingClientRect().top < arrowTop && item.getBoundingClientRect().bottom > arrowBottom) {
-                $(".enlarge-wrapper").html(item.innerHTML);
+                var cid = item.getAttribute('data-cid');
+                var currentModel = feedlist.get(cid);
+
+                var bigitem = new LargeItemView({model: currentModel}).render().$el;
+
+                $("#big_item_spot").html(bigitem);
                 return false;
+
             }
             return true;
         })
     },
     renderItem: function(item) {
-        // HOW TO RENDER IN RIGHT PLACE???
-        switch (item.get('source')) {
-            case 'Twitter':
-                var $iv = new TweetItemView({model:item}).render().$el;
-                break;
-            case 'Yik Yak':
-                var $iv = new YakItemView({model:item}).render().$el;
-                break;
-            case 'Instagram':
-                var $iv = new InstaItemView({model:item}).render().$el;
-                break;
-            default:
-                var $iv = new RSSItemView({model:item}).render().$el;
-                break;
-        }
-        return $iv;
-        // this.$el.append($iv);
+        return new FeedItemView({model:item}).render().$el;
     },
     render: function() {
         var items = [];
@@ -63,6 +52,7 @@ var TweetItem = Backbone.Model.extend({
 var YakItem = Backbone.Model.extend({
     constructor: function() {
         arguments[0].date = new Date(arguments[0].time);
+        arguments[0].text = arguments[0].message;
         Backbone.Model.apply(this, arguments);
     },
     idAttribute: "id",
@@ -112,16 +102,19 @@ var FeedList = Backbone.Collection.extend({
 var genericRender = function() {
     var variables = _.extend({cid:this.model.cid}, this.model.toJSON());
     var template = _.template(this.template, variables);
-    this.$el.html(template);
+    this.$el = template;
     return this;
 };
 
-// var FeedItemView = Backbone.View.extend({ render: genericRender });
+var FeedItemView = Backbone.View.extend({
+    template: $("#feed_item").html(),
+    render: genericRender
+});
 
-var TweetItemView = Backbone.View.extend({ template: $("#tweet_item").html(), render: genericRender });
-var InstaItemView = Backbone.View.extend({ template: $("#insta_item").html(), render: genericRender });
-var YakItemView = Backbone.View.extend({ template: $('#yak_item').html(), render: genericRender });
-var RSSItemView = Backbone.View.extend({ template: $("#story_item").html(), render: genericRender });
+var LargeItemView = Backbone.View.extend({
+    template: $("#big_feed_item").html(),
+    render: genericRender
+})
 
 // Populate Models
 
@@ -169,7 +162,7 @@ _.each(feeds, function(feed, name) {
                 var m = new RSSItem({
                     source:name,
                     logo:logos[name],
-                    title:entry.title,
+                    text:entry.title,
                     desc:entry.content,
                     url: entry.link,
                     date: new Date(entry.publishedDate)
@@ -195,7 +188,7 @@ $.ajax({
             var m = new InstaItem({
                 id: pic.id,
                 username: pic.username,
-                caption: pic.caption,
+                text: pic.caption,
                 url: pic.url,
                 date: new Date(pic.created_time)
             });
@@ -214,7 +207,7 @@ $.ajax({
             var m = new TweetItem({
                 id: tweet.id,
                 username: tweet.username,
-                message: tweet.text,
+                text: tweet.text,
                 date: new Date(tweet.created_at)
             });
             feedlist.add(m);
