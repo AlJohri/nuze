@@ -5,6 +5,12 @@ import tweepy
 import os
 import json
 
+from dateutil import tz
+
+from_zone_est = tz.gettz('America/New York')
+from_zone_gmt = tz.gettz('GMT')
+to_zone = tz.gettz('America/Chicago')
+
 lat, lng = 42.057796,-87.676634
 
 ENV_VARS = ["TWITTER_CONSUMER_KEY", "TWITTER_CONSUMER_SECRET", "TWITTER_ACCESS_TOKEN", "TWITTER_ACCESS_SECRET", "INSTAGRAM_CLIENT_ID", "INSTAGRAM_CLIENT_SECRET"]
@@ -122,7 +128,7 @@ def instagram():
 		"id": media.id,
 		"username": media.user.username,
 		"caption": media.caption.text if media.caption else "",
-		"created_time": media.created_time.strftime("%c"),
+		"created_time": media.created_time.replace(tzinfo=from_zone_gmt).astimezone(to_zone).strftime("%c"),
 		"url": media.images['standard_resolution'].url
 	} for media in your_location])
 	return results
