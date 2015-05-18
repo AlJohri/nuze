@@ -64,7 +64,7 @@ var InstaItem = Backbone.Model.extend({
 });
 var RSSItem = Backbone.Model.extend({
     idAttribute: "url",
-    defaults: { } // source and logo set during ajax call
+    defaults: { source: "RSS", } // logo from ajax call
 });
 
 // var TweetList = Backbone.Collection.extend({ model: TweetItem });
@@ -160,7 +160,7 @@ _.each(feeds, function(feed, name) {
             _(data.responseData.feed.entries).each(function(entry) {
                 // console.log(entry.title);
                 var m = new RSSItem({
-                    source:name,
+                    rssfeed:name,
                     logo:logos[name],
                     text:entry.title,
                     desc:entry.content,
@@ -187,9 +187,10 @@ $.ajax({
         _(data).each(function(pic) {
             var m = new InstaItem({
                 id: pic.id,
+                name: pic.name,
                 username: pic.username,
                 text: pic.caption,
-                url: pic.url,
+                picurl: pic.url,
                 date: new Date(pic.created_time)
             });
             feedlist.add(m);
@@ -206,6 +207,7 @@ $.ajax({
         _(data).each(function(tweet) {
             var m = new TweetItem({
                 id: tweet.id,
+                name: tweet.name,
                 username: tweet.username,
                 text: tweet.text,
                 date: new Date(tweet.created_at)

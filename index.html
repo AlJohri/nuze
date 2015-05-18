@@ -53,30 +53,22 @@
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
 
-        <% if (source == "Twitter" || source == "Instagram") { %>
-          <p><strong>Name</strong> <%- username %> </p>
+        <% if (typeof(username) != "undefined") { %>
+          <p><strong><%- name %></strong> <%- username %> </p>
         <% } else { %>
           <p><strong><%- source %></strong></p>
         <% } %>
 
-          <p><%- date %></p>
+        <p><%- date %></p>
 
-          <% if (source == "Yik Yak" || source == "Twitter") { %>
+        <% if ( typeof(url) != "undefined" ) { %> <a href="<%- url %>"> <% } %>
+          <p class="lead"><%- text %></p>
+        <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
 
-            <p class="lead"><%- text %></p>
-
-          <% } else if (source == "Instagram") { %>
-
-            <img src="<%- url %>"></img>
-            <p><%- text %></p>
-
-          <% } else { %>
-
-            <a href="<%- url %>" data-id="<%- cid %>" class="" target="_blank">
-              <p class="lead"><%- text %></p>
-            </a>
-
-          <% } %>
+        <%if (typeof(picurl) != "undefined") { %>
+          <img class="img-responsive" src="<%- picurl %>"></img>
+          <p><%- text %></p>
+        <% } %>
 
         </div>
       </div>
@@ -85,37 +77,28 @@
     <script type="text/template" id="big_feed_item">
 
       <div data-cid="<%- cid %>" class="feed-item">
+        <div class="enlarge-wrapper">
 
         <div class="enlarge-header">
           <img width="48px" src="<%- logo %>"></img>
         </div>
 
-        <div class="enlarge-wrapper">
-
-        <% if (source == "Twitter" || source == "Instagram") { %>
-          <p class="enlarge-text"><strong>Name</strong> <%- username %> </p>
+        <% if (typeof(username) != "undefined") { %>
+          <p><strong><%- name %></strong> <%- username %> </p>
         <% } else { %>
-          <p class="enlarge-text"><strong><%- source %></strong></p>
+          <p><strong><%- source %></strong></p>
         <% } %>
 
-          <p><%- date %></p>
+        <p><%- date %></p>
 
-          <% if (source == "Yik Yak" || source == "Twitter") { %>
+        <% if ( typeof(url) != "undefined" ) { %> <a href="<%- url %>"> <% } %>
+          <p class="lead"><%- text %></p>
+        <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
 
-            <p class="lead enlarge-tweet"><%- text %></p>
-
-          <% } else if (source == "Instagram") { %>
-
-            <img class="img-responsive" src="<%- url %>"></img>
-            <p><%- text %></p>
-
-          <% } else { %>
-
-            <a href="<%- url %>" data-id="<%- cid %>" class="" target="_blank">
-              <p class="lead enlarge-tweet"><%- text %></p>
-            </a>
-
-          <% } %>
+        <%if (typeof(picurl) != "undefined") { %>
+          <img class="img-responsive" src="<%- picurl %>"></img>
+          <p><%- text %></p>
+        <% } %>
 
         </div>
       </div>
