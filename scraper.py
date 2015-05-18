@@ -112,6 +112,7 @@ def twitter():
 
 	results = json.dumps([{
 		"id": tweet.id,
+		"name": tweet.user.name,
 		"username": tweet.user.screen_name,
 		"text": tweet.text,
 		"created_at": tweet.created_at.strftime("%c")
@@ -126,6 +127,7 @@ def instagram():
 
 	results = json.dumps([{
 		"id": media.id,
+		"name": media.user.full_name,
 		"username": media.user.username,
 		"caption": media.caption.text if media.caption else "",
 		"created_time": media.created_time.replace(tzinfo=from_zone_gmt).astimezone(to_zone).strftime("%c"),
