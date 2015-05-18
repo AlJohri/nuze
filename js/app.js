@@ -5,9 +5,27 @@
 var FeedView = Backbone.View.extend({
     el: "#feed",
     initialize: function(options) {
-        this.render();
-        // this.collections = options.collections;
+        _.bindAll(this, 'detectScroll'); // binds this collection to the detectScroll function
+        $(window).unbind('scroll'); // its binding twice for some reason ..
+        $(window).scroll(this.detectScroll); // binds the detectScroll functions to the window scroll event
         this.listenTo(this.collection, 'add', this.render);
+    },
+    detectScroll: function() {
+        console.log('detected');
+        var self = this;
+        var fromTop = $(window).scrollTop();
+
+        var arrowTop = $("body > div > div > i")[0].getBoundingClientRect().top;
+        var arrowBottom = $("body > div > div > i")[0].getBoundingClientRect().bottom;
+
+        _(self.$el.children()).every(function(item){
+            console.log(item.getBoundingClientRect().top, item.getBoundingClientRect().bottom, arrowTop, arrowBottom);
+            if (item.getBoundingClientRect().top < arrowTop && item.getBoundingClientRect().bottom > arrowBottom) {
+                $(".enlarge-wrapper").html(item.innerHTML);
+                return false;
+            }
+            return true;
+        })
     },
     renderItem: function(item) {
         // HOW TO RENDER IN RIGHT PLACE???
