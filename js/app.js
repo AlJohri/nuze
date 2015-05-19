@@ -181,7 +181,7 @@ var isValidFeed = function(url) {
 console.log("fetching instagram...");
 
 $.ajax({
-    url: "http://nuze.herokuapp.com/instagram",
+    url: "https://nuze.herokuapp.com/instagram",
     dataType: "json",
     success: function(data) {
         _(data).each(function(pic) {
@@ -201,7 +201,7 @@ $.ajax({
 console.log("fetching tweets...");
 
 $.ajax({
-    url: "http://nuze.herokuapp.com/twitter",
+    url: "https://nuze.herokuapp.com/twitter",
     dataType: "json",
     success: function(data) {
         _(data).each(function(tweet) {
