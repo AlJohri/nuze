@@ -216,3 +216,42 @@ $.ajax({
         }
     )}
 });
+
+$(document).ready(function(){
+    $(window).scroll(function(){
+        while( $('.enlarge-wrapper').height() > (0.80 * $(window).height())) {
+            $('#big-text').css('font-size', (parseInt($('#big-text').css('font-size')) - 1) + "px" );
+        }
+        var right = $(window).width()/3;
+        var block = $('.enlarge-wrapper').width();
+        right = right - block/2;
+        console.log(right);
+        var ew = '' + right + 'px';
+        if ($(window).width() > 992) {
+            $('.enlarge-wrapper').css({
+                'position' : 'fixed',
+                'right' : ew,
+                'top' : '52%',
+                'margin-left' : -$('.enlarge-wrapper').outerWidth()/2,
+                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2
+            });
+        }
+        else {
+            $('.enlarge-wrapper').css({
+                'position' : 'fixed',
+                'right' : '5%',
+                'top' : '52%',
+                'margin-left' : -$('.enlarge-wrapper').outerWidth()/2,
+                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2
+
+            });
+        }
+        console.log("win: " + $(window).height());
+        console.log("enl: " + $('.enlarge-wrapper').height());
+
+        // if ($('.enlarge-wrapper').height() > 0.95 * $(window).height()) {
+        //     var size = parseInt($('#big-text').css('font-size')) - 1;
+        //     $('.big-text').css('font-size', size);
+        // }
+    });
+});

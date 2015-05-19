@@ -96,6 +96,15 @@ p {
     margin: auto;
 }
 
+.source-img {
+    float: left;
+}
+
+.byline {
+    float: left;
+    margin-left: 10px;
+}
+
 .logo {
     width: 60px;
     height: 60px;
@@ -168,7 +177,7 @@ p {
     }
     .enlarge-wrapper {
         right: 15%;
-        max-width: 500px;
+        max-width: 600px;
     }
     .enlarge-wrapper > img {
         max-width: 400px;
