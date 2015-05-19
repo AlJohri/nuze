@@ -75,7 +75,7 @@ var YakList = Backbone.Firebase.Collection.extend({
     initialize: function() {
         this.name = "YakItem";
     },
-    url: new Firebase('https://aljohri-nuze.firebaseio.com/yaks').limitToLast(10),
+    url: new Firebase('https://aljohri-nutopyak.firebaseio.com/yaks').limitToLast(10),
     model: YakItem,
     autoSync: true
 });
