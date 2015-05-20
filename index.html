@@ -23,14 +23,6 @@
           </button>
           <a class="navbar-brand" href="#">NUze</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="#GoCats">
-            </div>
-            <button type="submit" class="btn btn-default">Search</button>
-          </form>
-        </div><!--/.navbar-collapse -->
       </div>
     </nav>
 
@@ -49,7 +41,7 @@
     </div> <!-- /container -->
 
     <script type="text/template" id="feed_item">
-      <div data-cid="<%- cid %>" class="feed-item">
+      <div data-cid="<%- cid %>" class="feed-item" id="feed-item">
         <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
         <div class="content-wrapper">
 
@@ -59,7 +51,7 @@
           <p><strong><%- source %></strong></p>
         <% } %>
 
-        <p><%- date %></p>
+        <p class="date"><%- date %></p>
 
         <% if ( typeof(url) != "undefined" ) { %> <a href="<%- url %>"> <% } %>
           <p class="lead"><%- text %></p>
@@ -88,7 +80,7 @@
         <% } %>
         </div>
 
-        <p><%- date %></p>
+        <p class="date"><%- date %></p>
 
         <% if ( typeof(url) != "undefined") { %> <a href="<%- url %>"> <% } %>
           <p class="lead" id="big-text"><%- text %></p>
@@ -113,6 +105,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/anim.js"></script>
 
   </body>
 
