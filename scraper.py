@@ -123,7 +123,7 @@ def twitter():
 @app.route('/instagram')
 @cross_origin()
 def instagram():
-	your_location = instagram_api.media_search(count=100, lat=lat, lng=lng, distance=1500)
+	your_location = instagram_api.media_search(count=100, lat=lat, lng=lng, distance=1000)
 
 	results = json.dumps([{
 		"id": media.id,
