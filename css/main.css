@@ -35,6 +35,10 @@ body {
     background-color: white;
 }
 
+#feed-item {
+    cursor: pointer;
+}
+
 .feed-item {
     border-bottom: 1px solid #E1E8ED;
     overflow: auto;
@@ -94,6 +98,15 @@ p {
     max-width: 400px;
     max-height: 400px;
     margin: auto;
+}
+
+.source-img {
+    float: left;
+}
+
+.byline {
+    float: left;
+    margin-left: 10px;
 }
 
 .logo {
@@ -168,7 +181,7 @@ p {
     }
     .enlarge-wrapper {
         right: 15%;
-        max-width: 500px;
+        max-width: 600px;
     }
     .enlarge-wrapper > img {
         max-width: 400px;
