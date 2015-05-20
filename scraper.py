@@ -26,89 +26,11 @@ instagram_api = InstagramAPI(client_id=os.getenv("INSTAGRAM_CLIENT_ID"), client_
 
 app = Flask(__name__)
 
-twitter_handles = [
-	"NorthwesternU",
-	"NULax",
-	"Northwesternmag",
-	"NU_LIBRARY",
-	"thedailynu",
-	"NU_NUIT",
-	"NorthwesternSPS",
-	"NorthwesternPHA",
-	"NUQatar",
-	"NUcrew",
-	"NorthwesternRO",
-	"sesp_nu",
-	"NUIFC",
-	"HCNorthwestern",
-	"NorthwesternDZ",
-	"phipsinu",
-	"nuequipstaff",
-	"NUOnBTN",
-	"NU_FIJI",
-	"DFANorthwestern",
-	"NUbands",
-	"SLGTauAlpha",
-	"NorthwesternRCB",
-	"NorthwesternUP",
-	"NUpikes",
-	"NorthwesternSAA",
-	"coach_collins",
-	"NU_RHA",
-	"NorthwesternGOP",
-	"NUStuCo",
-	"NorthwesternCFS",
-	"ZeeBeeTweets",
-	"nuNPHC",
-	"NorthwesternLaw",
-	"NorthwesternASG",
-	"NUSkating",
-	"CoreLibraryNU",
-	"NUArchives",
-	"njtip",
-	"nuHPaW",
-	"eswnu",
-	"NorthwesternMSA",
-	"IINanoNU",
-	"NUHoopsFan",
-	"NU_SailingTeam",
-	"JStreetU_NU",
-	"NM_News",
-	"MSSatNU",
-	"NU_Sports",
-	"OccupyNU",
-	"nugradwriting",
-	"NUseniorClass",
-	"ASB_NU",
-	"ISANorthwestern",
-	"NUWomensCenterS YOU",
-	"NorthwesternETG",
-	"SSDPNU",
-	"AIESECNU",
-	"stitchmag",
-	"NorthwesternTFA",
-	"NorthwesternMT",
-	"NUSafeRide",
-	"NUFHCats",
-	"NUTrombones",
-	"nwciowa",
-	"NUsolar",
-	"patgossnugolf",
-	"MrNorthwesternU",
-	"TOCNorthwestern",
-	"NERCenergy",
-	"NUJIHR",
-	"85BroadsNU",
-	"COPE_NU"
-]
-
 @app.route('/twitter')
 @cross_origin()
 def twitter():
 
-	public_tweets = []
-	for handle in twitter_handles[:2]:
-		public_tweets += twitter_api.user_timeline(handle)
+	public_tweets = twitter_api.list_timeline(slug='northwestern-university', owner_screen_name='@aljohri')
 
 	results = json.dumps([{
 		"id": tweet.id,

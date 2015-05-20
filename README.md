@@ -21,3 +21,7 @@ cp .secret.example .secret
 - http://nuze.herokuapp.com/instagram
 - http://nuze.herokuapp.com/twitter
 
+## Deploy
+```
+heroku config:push --overwrite -e .secret
+```
