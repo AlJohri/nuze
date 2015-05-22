@@ -38,7 +38,8 @@ var FeedView = Backbone.View.extend({
     render: function() {
         var items = [];
         var self = this;
-        _(self.collection.slice(0,25)).each(function(item) {
+        // _(self.collection.slice(0,25))
+        self.collection.each(function(item) {
             items.push(self.renderItem(item));
         });
         this.$el.html(items); // omg this is badddd
@@ -49,6 +50,7 @@ var TweetItem = Backbone.Model.extend({
     idAttribute: "id",
     defaults: { source: "Twitter", logo: "img/twitterlogo.png" }
 });
+
 var YakItem = Backbone.Model.extend({
     constructor: function() {
         arguments[0].date = new Date(arguments[0].time);
@@ -102,13 +104,31 @@ var FeedList = Backbone.Collection.extend({
 var genericRender = function() {
     var variables = _.extend({cid:this.model.cid}, this.model.toJSON());
     var template = _.template(this.template, variables);
-    this.$el = template;
+    this.setElement(template); // this.$el = template;
     return this;
 };
 
 var FeedItemView = Backbone.View.extend({
+    events: {"click": "scrollIntoView"},
     template: $("#feed_item").html(),
-    render: genericRender
+    render: genericRender,
+    scrollIntoView: function() {
+        var self = this;
+
+        var arrowTop = $("body > div > div > i")[0].getBoundingClientRect().top;
+        var arrowBottom = $("body > div > div > i")[0].getBoundingClientRect().bottom;
+
+        var arrowMidPoint = arrowTop + ((arrowBottom - arrowTop) / 2);
+
+        var offset = self.$el.offset();
+
+        offset.top -= arrowMidPoint - (self.$el.height() / 2);
+
+        $('html, body').animate({
+            scrollTop: offset.top,
+        });
+
+    }
 });
 
 var LargeItemView = Backbone.View.extend({
