@@ -5,10 +5,18 @@
 var FeedView = Backbone.View.extend({
     el: "#feed",
     initialize: function(options) {
-        _.bindAll(this, 'detectScroll'); // binds this collection to the detectScroll function
+        var self = this;
+        _.bindAll(self, 'detectScroll'); // binds this collection to the detectScroll function
         $(window).unbind('scroll'); // its binding twice for some reason ..
         $(window).scroll(this.detectScroll); // binds the detectScroll functions to the window scroll event
-        this.listenTo(this.collection, 'add', this.render);
+        self.collection.fetchFeeds({
+            success: function() {
+                self.listenTo(self.collection, 'add', self.render)
+                self.render();
+                $(".loading-icon").hide();
+                $(".feed-wrapper").fadeIn();
+            }
+        });
     },
     detectScroll: function() {
         var self = this;
@@ -32,17 +40,22 @@ var FeedView = Backbone.View.extend({
             return true;
         })
     },
-    renderItem: function(item) {
+    createNewFeedItemView: function(item) {
         return new FeedItemView({model:item}).render().$el;
+    },
+    renderNew: function(item) {
+        this.$el.prepend(this.createNewFeedItemView(item));
+        return this;
     },
     render: function() {
         var items = [];
         var self = this;
         // _(self.collection.slice(0,25))
         self.collection.each(function(item) {
-            items.push(self.renderItem(item));
+            items.push(self.createNewFeedItemView(item));
         });
         this.$el.html(items); // omg this is badddd
+        return this;
     }
 })
 
@@ -98,6 +111,112 @@ var FeedList = Backbone.Collection.extend({
     },
     comparator: function(m) {
         return -m.get('date').getTime();
+    },
+    fetchFeeds: function(options) {
+
+        this.trigger("fetchFeeds:started");
+
+        var feeds = {
+            "Daily Northwestern": "http://dailynorthwestern.com/feed/",
+            "Northwestern News": "http://www.northwestern.edu/newscenter/feeds/all-stories.xml",
+            "North By Northwestern": "http://www.northbynorthwestern.com/feed/rss/",
+            "NNN": "http://nnn.medill.northwestern.edu/feed/",
+            "Sherman Ave": "http://sherman-ave.com/feed/"
+        }
+
+        var logos = {
+            "Daily Northwestern": "img/dailylogo.jpeg",
+            "Northwestern News": "img/nulogo.jpg",
+            "North By Northwestern": "img/nbnlogo1.png",
+            "NNN": "img/nnnlogo.jpg",
+            "Sherman Ave": "img/shermanlogo2.jpeg",
+            "Yik Yak": "img/yikyaklogo.png",
+            "Instagram": "img/instagramlogo.gif",
+            "Twitter": "img/twitterlogo.png",
+        }
+
+        console.log("fetching feeds...");
+
+        var deferreds = [];
+
+        _.each(feeds, function(feed, name) {
+            var deferred = $.ajax({
+                url: "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=6",
+                dataType: "jsonp",
+                data: {
+                    q: feed
+                },
+                success: function(data) {
+                    _(data.responseData.feed.entries).each(function(entry) {
+                        // console.log(entry.title);
+                        var m = new RSSItem({
+                            rssfeed:name,
+                            logo:logos[name],
+                            text:entry.title,
+                            desc:entry.content,
+                            url: entry.link,
+                            date: new Date(entry.publishedDate)
+                        });
+                        feedlist.add(m);
+                    });
+                }
+
+            });
+            deferreds.push(deferred);
+        })
+
+        console.log("fetching instagram...");
+
+        var deferred = $.ajax({
+            url: "https://nuze.herokuapp.com/instagram",
+            dataType: "json",
+            success: function(data) {
+                _(data).each(function(pic) {
+                    var m = new InstaItem({
+                        id: pic.id,
+                        name: pic.name,
+                        username: pic.username,
+                        text: pic.caption,
+                        picurl: pic.url,
+                        date: new Date(pic.created_time)
+                    });
+                    feedlist.add(m);
+                }
+            )}
+        });
+
+        deferreds.push(deferred);
+
+        console.log("fetching tweets...");
+
+        var deferred = $.ajax({
+            url: "https://nuze.herokuapp.com/twitter",
+            dataType: "json",
+            success: function(data) {
+                _(data).each(function(tweet) {
+                    var m = new TweetItem({
+                        id: tweet.id,
+                        name: tweet.name,
+                        username: tweet.username,
+                        text: tweet.text,
+                        date: new Date(tweet.created_at)
+                    });
+                    feedlist.add(m);
+                }
+            )}
+        });
+
+        deferreds.push(deferred);
+
+        console.log(deferreds);
+
+        $.when.apply($, deferreds).done(function() {
+            if (options.success) {
+                console.log("all done??!");
+                options.success();
+            }
+        })
+
     }
 });
 
@@ -139,7 +258,6 @@ var LargeItemView = Backbone.View.extend({
 // Populate Models
 
 var feedlist = new FeedList();
-var feedview = new FeedView({collection: feedlist});
 
 var yaklist = new YakList();
 yaklist.on('add', function(yak) {
@@ -148,91 +266,4 @@ yaklist.on('add', function(yak) {
     }
 });
 
-var feeds = {
-    "Daily Northwestern": "http://dailynorthwestern.com/feed/",
-    "Northwestern News": "http://www.northwestern.edu/newscenter/feeds/all-stories.xml",
-    "North By Northwestern": "http://www.northbynorthwestern.com/feed/rss/",
-    "NNN": "http://nnn.medill.northwestern.edu/feed/",
-    "Sherman Ave": "http://sherman-ave.com/feed/"
-}
-
-var logos = {
-    "Daily Northwestern": "img/dailylogo.jpeg",
-    "Northwestern News": "img/nulogo.jpg",
-    "North By Northwestern": "img/nbnlogo1.png",
-    "NNN": "img/nnnlogo.jpg",
-    "Sherman Ave": "img/shermanlogo2.jpeg",
-    "Yik Yak": "img/yikyaklogo.png",
-    "Instagram": "img/instagramlogo.gif",
-    "Twitter": "img/twitterlogo.png",
-}
-
-console.log("fetching feeds...");
-
-_.each(feeds, function(feed, name) {
-    $.ajax({
-        url: "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=6",
-        dataType: "jsonp",
-        data: {
-            q: feed
-        },
-        success: function(data) {
-            _(data.responseData.feed.entries).each(function(entry) {
-                // console.log(entry.title);
-                var m = new RSSItem({
-                    rssfeed:name,
-                    logo:logos[name],
-                    text:entry.title,
-                    desc:entry.content,
-                    url: entry.link,
-                    date: new Date(entry.publishedDate)
-                });
-                feedlist.add(m);
-            });
-        }
-
-    });
-})
-
-var isValidFeed = function(url) {
-    return true;
-};
-
-console.log("fetching instagram...");
-
-$.ajax({
-    url: "https://nuze.herokuapp.com/instagram",
-    dataType: "json",
-    success: function(data) {
-        _(data).each(function(pic) {
-            var m = new InstaItem({
-                id: pic.id,
-                name: pic.name,
-                username: pic.username,
-                text: pic.caption,
-                picurl: pic.url,
-                date: new Date(pic.created_time)
-            });
-            feedlist.add(m);
-        }
-    )}
-});
-
-console.log("fetching tweets...");
-
-$.ajax({
-    url: "https://nuze.herokuapp.com/twitter",
-    dataType: "json",
-    success: function(data) {
-        _(data).each(function(tweet) {
-            var m = new TweetItem({
-                id: tweet.id,
-                name: tweet.name,
-                username: tweet.username,
-                text: tweet.text,
-                date: new Date(tweet.created_at)
-            });
-            feedlist.add(m);
-        }
-    )}
-});
+var feedview =  new FeedView({collection: feedlist});
