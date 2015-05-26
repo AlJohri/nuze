@@ -14,9 +14,12 @@ $(document).ready(function(){
         // important to check whether the text is longer than 20 characters
         $(this).text(text);  // update the text
     });
-        // while( $('.enlarge-wrapper').height() > (0.80 * $(window).height())) {
-        //     $('#big-text').css('font-size', (parseInt($('#big-text').css('font-size')) - 1) + "px" );
-        // }
+        while( $('.enlarge-wrapper').height() > (0.85 * $(window).height())) {
+            $('#big-text').css('font-size', (parseInt($('#big-text').css('font-size')) - 3) + "px" );
+        }
+        while( $('.enlarge-wrapper').height() < (0.4 * $(window).height()) && $('.enlarge-wrapper').height() > (0.05 * $(window).height() )) {
+            $('#big-text').css('font-size', (parseInt($('#big-text').css('font-size')) + 3) + "px" );
+        }
         var right = $(window).width()/3;
         var block = $('.enlarge-wrapper').width();
         right = right - block/2;
@@ -27,7 +30,7 @@ $(document).ready(function(){
                 'right' : ew,
                 'top' : '52%',
                 'margin-left' : -$('.enlarge-wrapper').outerWidth()/2,
-                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2
+                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2 + 15
             });
         }
         else {
@@ -36,7 +39,7 @@ $(document).ready(function(){
                 'right' : '5%',
                 'top' : '52%',
                 'margin-left' : -$('.enlarge-wrapper').outerWidth()/2,
-                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2
+                'margin-top' : -$('.enlarge-wrapper').outerHeight()/2 + 15
 
             });
         }

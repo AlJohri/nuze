@@ -42,8 +42,14 @@ body {
 .feed-item {
     border-bottom: 1px solid #E1E8ED;
     overflow: auto;
-    padding: 5px;
+    padding: 10px;
+    padding-bottom: 15px;
 }
+
+.active {
+    background-color: red;
+}
+
 .logo-wrapper {
     width: 20%;
     height: 100%;
@@ -92,6 +98,7 @@ p {
     right: 15%;
     border-radius: 5px;
     background: white;
+    padding: 15px;
 }
 
 .enlarge-wrapper > img{
