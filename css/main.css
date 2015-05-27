@@ -28,6 +28,12 @@ body {
     color: white;
 }
 
+.navbar-btn {
+    margin-right: 20px;
+    background-color: white;
+    background-image: none;
+}
+
 .feed-wrapper {
     max-width: 400px;
     margin: auto;

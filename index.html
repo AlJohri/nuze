@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/main.css">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
 
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -24,6 +24,12 @@
           </button>
           <a class="navbar-brand" href="#">NUze</a>
         </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><button type="button" class="btn btn-default navbar-btn disabled">New</button></li>
+            <li><button type="button" class="btn btn-default navbar-btn">Popular</button></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
       </div>
     </nav>
 
@@ -43,73 +49,73 @@
     </div> <!-- /container -->
 
     <script type="text/template" id="feed_item">
-      <div data-cid="<%- cid %>" class="feed-item">
-        <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
-        <div class="content-wrapper">
+    <div data-cid="<%- cid %>" class="feed-item">
+    <div class="logo-wrapper"><img width="48px" src="<%- logo %>"></img></div>
+    <div class="content-wrapper">
 
-        <% if (typeof(username) != "undefined") { %>
-          <p><strong><%- name %></strong> <%- username %> </p>
-        <% } else { %>
-          <p><strong><%- source %></strong></p>
+    <% if (typeof(username) != "undefined") { %>
+      <p><strong><%- name %></strong> <%- username %> </p>
+      <% } else { %>
+        <p><strong><%- source %></strong></p>
         <% } %>
 
         <p class="date"><%- moment(date).startOf('minute').fromNow() %></p>
 
         <% if ( typeof(url) != "undefined" ) { %> <a href="<%- url %>"> <% } %>
-          <p class=""><%- text %></p>
+        <p class=""><%- text %></p>
         <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
 
         <%if (typeof(picurl) != "undefined") { %>
           <img class="img-responsive" src="<%- picurl %>"></img>
 
-        <% } %>
+          <% } %>
 
-        </div>
-      </div>
-    </script>
+          </div>
+          </div>
+          </script>
 
-    <script type="text/template" id="big_feed_item">
+          <script type="text/template" id="big_feed_item">
 
-      <div data-cid="<%- cid %>" class="feed-item large-item">
-        <div class="enlarge-wrapper">
+          <div data-cid="<%- cid %>" class="feed-item large-item">
+          <div class="enlarge-wrapper">
 
-        <div class="enlarge-header">
+          <div class="enlarge-header">
           <img class="source-img" width="48px" src="<%- logo %>"></img>
           <% if (typeof(username) != "undefined") { %>
-          <p class="byline"><strong><%- name %></strong> @<%- username %> </p>
-        <% } else { %>
-          <p class="byline" ><strong><%- source %></strong></p>
-        <% } %>
-        </div>
+            <p class="byline"><strong><%- name %></strong> @<%- username %> </p>
+            <% } else { %>
+              <p class="byline" ><strong><%- source %></strong></p>
+              <% } %>
+              </div>
 
-        <p class="date"><%- moment(date).startOf('minute').fromNow() %></p>
+              <p class="date"><%- moment(date).startOf('minute').fromNow() %></p>
 
-        <% if ( typeof(url) != "undefined") { %> <a href="<%- url %>"> <% } %>
-          <p class="lead" id="big-text"><%- text %></p>
-        <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
+              <% if ( typeof(url) != "undefined") { %> <a href="<%- url %>"> <% } %>
+              <p class="lead" id="big-text"><%- text %></p>
+              <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
 
-        <%if (typeof(picurl) != "undefined") { %>
-          <img class="img-responsive" src="<%- picurl %>"></img>
+              <%if (typeof(picurl) != "undefined") { %>
+                <img class="img-responsive" src="<%- picurl %>"></img>
 
-        <% } %>
+                <% } %>
 
-        </div>
-      </div>
+                </div>
+                </div>
 
-    </script>
+                </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.0/underscore-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
-    <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/anim.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.0/underscore-min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+                <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
+                <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+                <script src="js/app.js"></script>
+                <script src="js/anim.js"></script>
 
-  </body>
+              </body>
 
-</html>
+              </html>
