@@ -79,6 +79,10 @@ body {
     margin-right: auto;
 }
 
+.score {
+    float: right;
+}
+
 .lead {
     margin-bottom: 5px;
 }
