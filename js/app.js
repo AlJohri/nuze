@@ -17,7 +17,7 @@ var FeedView = Backbone.View.extend({
                 $(".feed-wrapper").fadeIn();
             }
         });
-        this.collection.on('sort', this.render, this);
+        // this.collection.on('sort', this.render, this);
     },
     detectScroll: function() {
         var self = this;
@@ -127,12 +127,14 @@ var FeedList = Backbone.Collection.extend({
         this._order_by = 'newest';
         this.sort();
         console.log("order by newest");
+        feedview.render();
 
     },
     order_by_top: function(){
         this._order_by = 'top';
         this.sort();
         console.log("order by top");
+        feedview.render();
     },
     _order_by: 'newest',
 
