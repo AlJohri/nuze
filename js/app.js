@@ -72,6 +72,7 @@ var YakItem = Backbone.Model.extend({
     constructor: function() {
         arguments[0].date = new Date(arguments[0].time);
         arguments[0].text = arguments[0].message;
+        arguments[0].score = arguments[0].likes;
         Backbone.Model.apply(this, arguments);
     },
     idAttribute: "id",
@@ -182,7 +183,8 @@ var FeedList = Backbone.Collection.extend({
                         username: pic.username,
                         text: pic.caption,
                         picurl: pic.url,
-                        date: new Date(pic.created_time)
+                        date: new Date(pic.created_time),
+                        score: pic.num_likes
                     });
                     feedlist.add(m);
                 }
@@ -203,7 +205,8 @@ var FeedList = Backbone.Collection.extend({
                         name: tweet.name,
                         username: tweet.username,
                         text: tweet.text,
-                        date: new Date(tweet.created_at)
+                        date: new Date(tweet.created_at),
+                        score: tweet.retweet_count + tweet.favorite_count
                     });
                     feedlist.add(m);
                 }

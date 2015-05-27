@@ -55,6 +55,10 @@
 
         <p class="date"><%- moment(date).startOf('minute').fromNow() %></p>
 
+        <% if (typeof(score) != "undefined") { %>
+          <p class="score"><%- score %></p>
+        <% } %>
+
         <% if ( typeof(url) != "undefined" ) { %> <a href="<%- url %>"> <% } %>
           <p class=""><%- text %></p>
         <% if ( typeof(url) != "undefined" ) { %> </a>  <% } %>
