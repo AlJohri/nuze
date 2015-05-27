@@ -46,11 +46,6 @@ body {
     padding-bottom: 15px;
 }
 
-.active {
-border: 1px solid rgb(193, 122, 239);
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(193, 122, 236, 0.6);
-}
-
 .logo-wrapper {
     width: 20%;
     height: 100%;
@@ -179,7 +174,12 @@ p {
     .lead {
         font-size: 16px;
     }
+    .active {
+        border: 1px solid rgb(193, 122, 239);
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(193, 122, 236, 0.6);
+    }
 }
+
 @media(min-width:992px){
     .fa-caret-right {
         position: fixed;
