@@ -17,6 +17,7 @@ var FeedView = Backbone.View.extend({
                 $(".feed-wrapper").fadeIn();
             }
         });
+        this.collection.on('sort', this.render, this);
     },
     detectScroll: function() {
         var self = this;
@@ -116,23 +117,24 @@ var FeedList = Backbone.Collection.extend({
     },
     comparator: function(m) {
         if (this._order_by == 'newest'){
-            return m.get('date').getTime();
+            return -m.get('date').getTime();
         }
         else if (this._order_by == 'top'){
             return -m.get('score');
-        } 
-    
+        }
     },
     order_by_newest: function(){
         this._order_by = 'newest';
         this.sort();
+        console.log("order by newest");
 
     },
     order_by_top: function(){
         this._order_by = 'top';
         this.sort();
+        console.log("order by top");
     },
-    _order_by: 'top',
+    _order_by: 'newest',
 
     fetchFeeds: function(options) {
 
@@ -182,7 +184,8 @@ var FeedList = Backbone.Collection.extend({
                             text:entry.title,
                             desc:entry.content,
                             url: entry.link,
-                            date: new Date(entry.publishedDate)
+                            date: new Date(entry.publishedDate),
+                            score: 0
                         });
                         feedlist.add(m);
                     });
@@ -297,6 +300,14 @@ yaklist.on('add', function(yak) {
 
 var feedview =  new FeedView({collection: feedlist});
 
-// #("#newbtn").on('click', function() {
-//     feedview
-// });
+$("#newbtn").click(function() {
+    feedlist.order_by_newest();
+    $("#popularbtn").removeClass("disabled");
+    $("#newbtn").addClass("disabled");
+});
+
+$("#popularbtn").click(function() {
+    feedlist.order_by_top();
+    $("#newbtn").removeClass("disabled");
+    $("#popularbtn").addClass("disabled");
+});
