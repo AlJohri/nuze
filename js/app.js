@@ -96,7 +96,7 @@ var YakList = Backbone.Firebase.Collection.extend({
     initialize: function() {
         this.name = "YakItem";
     },
-    url: new Firebase('https://aljohri-nutopyak.firebaseio.com/yaks').limitToLast(10),
+    url: new Firebase('https://aljohri-nutopyak.firebaseio.com/yaks').orderByChild("likes").limitToLast(20),
     model: YakItem,
     autoSync: true
 });
@@ -117,7 +117,10 @@ var FeedList = Backbone.Collection.extend({
     },
     comparator: function(m) {
         if (this._order_by == 'newest'){
-            return -m.get('date').getTime();
+            if (m.get('date') != undefined)
+                return -m.get('date').getTime();
+            else
+                return 0;
         }
         else if (this._order_by == 'top'){
             return -m.get('score');
