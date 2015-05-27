@@ -153,6 +153,11 @@ var FeedList = Backbone.Collection.extend({
                 },
                 success: function(data) {
                     _(data.responseData.feed.entries).each(function(entry) {
+
+                        if (name == "North By Northwestern") {
+                            entry.link = "http://northbynorthwestern.com" + entry.link;
+                        }
+
                         // console.log(entry.title);
                         var m = new RSSItem({
                             rssfeed:name,

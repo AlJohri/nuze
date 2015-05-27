@@ -82,7 +82,11 @@
           <% if (typeof(username) != "undefined") { %>
           <p class="byline"><strong><%- name %></strong> @<%- username %> </p>
         <% } else { %>
-          <p class="byline" ><strong><%- source %></strong></p>
+          <% if (typeof(rssfeed) != "undefined") { %>
+            <p class="byline" ><strong><%- rssfeed %></strong></p>
+          <% } else { %>
+            <p class="byline" ><strong><%- source %></strong></p>
+          <% } %>
         <% } %>
         </div>
 
