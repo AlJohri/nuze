@@ -279,3 +279,7 @@ yaklist.on('add', function(yak) {
 });
 
 var feedview =  new FeedView({collection: feedlist});
+
+// #("#newbtn").on('click', function() {
+//     feedview
+// });

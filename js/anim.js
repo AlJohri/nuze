@@ -8,12 +8,6 @@ $(document).ready(function(){
     //                 }, 2000);
     // });
     $(window).scroll(function(){
-       $('.date').each(function() {
-     var text = $(this).text();
-        text = (text.length > 23) ? text.slice(0,-23) : text;
-        // important to check whether the text is longer than 20 characters
-        $(this).text(text);  // update the text
-    });
         while( $('.enlarge-wrapper').height() > (0.85 * $(window).height())) {
             $('#big-text').css('font-size', (parseInt($('#big-text').css('font-size')) - 3) + "px" );
         }
