@@ -28,9 +28,10 @@ var FeedView = Backbone.View.extend({
         _(self.$el.children()).every(function(item){
             // console.log(item.getBoundingClientRect().top, item.getBoundingClientRect().bottom, arrowTop, arrowBottom);
             if (item.getBoundingClientRect().top < arrowTop && item.getBoundingClientRect().bottom > arrowBottom) {
+
+                $(item).parent().children(".active").removeClass("active");
                 $(item).addClass("active");
-                $(item).prev().removeClass("active");
-                $(item).next().removeClass("active");
+
                 var cid = item.getAttribute('data-cid');
                 var currentModel = feedlist.get(cid);
 
@@ -71,6 +72,7 @@ var YakItem = Backbone.Model.extend({
     constructor: function() {
         arguments[0].date = new Date(arguments[0].time);
         arguments[0].text = arguments[0].message;
+        arguments[0].score = arguments[0].likes;
         Backbone.Model.apply(this, arguments);
     },
     idAttribute: "id",
@@ -181,7 +183,8 @@ var FeedList = Backbone.Collection.extend({
                         username: pic.username,
                         text: pic.caption,
                         picurl: pic.url,
-                        date: new Date(pic.created_time)
+                        date: new Date(pic.created_time),
+                        score: pic.num_likes
                     });
                     feedlist.add(m);
                 }
@@ -202,7 +205,8 @@ var FeedList = Backbone.Collection.extend({
                         name: tweet.name,
                         username: tweet.username,
                         text: tweet.text,
-                        date: new Date(tweet.created_at)
+                        date: new Date(tweet.created_at),
+                        score: tweet.retweet_count + tweet.favorite_count
                     });
                     feedlist.add(m);
                 }
