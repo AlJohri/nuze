@@ -37,6 +37,8 @@ def twitter():
 		"name": tweet.user.name,
 		"username": tweet.user.screen_name,
 		"text": tweet.text,
+		"favorite_count": tweet.favorite_count,
+		"retweet_count": tweet.retweet_count,
 		"created_at": tweet.created_at.replace(tzinfo=from_zone_gmt).astimezone(to_zone).strftime("%c")
 	} for tweet in public_tweets])
 
