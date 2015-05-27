@@ -115,8 +115,25 @@ var FeedList = Backbone.Collection.extend({
         console.log("new model yahoo");
     },
     comparator: function(m) {
-        return -m.get('date').getTime();
+        if (this._order_by == 'newest'){
+            return m.get('date').getTime();
+        }
+        else if (this._order_by == 'top'){
+            return -m.get('score');
+        } 
+    
     },
+    order_by_newest: function(){
+        this._order_by = 'newest';
+        this.sort();
+
+    },
+    order_by_top: function(){
+        this._order_by = 'top';
+        this.sort();
+    },
+    _order_by: 'top',
+
     fetchFeeds: function(options) {
 
         this.trigger("fetchFeeds:started");
