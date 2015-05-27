@@ -29,8 +29,11 @@ var FeedView = Backbone.View.extend({
             // console.log(item.getBoundingClientRect().top, item.getBoundingClientRect().bottom, arrowTop, arrowBottom);
             if (item.getBoundingClientRect().top < arrowTop && item.getBoundingClientRect().bottom > arrowBottom) {
                 $(item).addClass("active");
+
+                $(item).prev().prev().removeClass("active");
                 $(item).prev().removeClass("active");
                 $(item).next().removeClass("active");
+                $(item).next().next().removeClass("active");
                 var cid = item.getAttribute('data-cid');
                 var currentModel = feedlist.get(cid);
 
