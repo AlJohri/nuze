@@ -73,7 +73,7 @@ var YakItem = Backbone.Model.extend({
     constructor: function() {
         arguments[0].date = new Date(arguments[0].time);
         arguments[0].text = arguments[0].message;
-        arguments[0].score = arguments[0].likes;
+        arguments[0].score = Math.floor(arguments[0].likes/4);
         Backbone.Model.apply(this, arguments);
     },
     idAttribute: "id",
