@@ -35,6 +35,11 @@ body {
     background-image: none;
 }
 
+.switch-p {
+    margin-top: 13px;
+    margin-left: 10px;
+}
+
 .feed-wrapper {
     max-width: 400px;
     margin: auto;
