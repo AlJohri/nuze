@@ -150,7 +150,7 @@ var FeedList = Backbone.Collection.extend({
         console.log("fetching feeds...");
 
         var deferreds = [];
-
+        var rssScore = 0;
         _.each(feeds, function(feed, name) {
             var deferred = $.ajax({
                 url: "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=6",
@@ -173,9 +173,10 @@ var FeedList = Backbone.Collection.extend({
                             desc:entry.content,
                             url: entry.link,
                             date: new Date(entry.publishedDate),
-                            score: 0
+                            score: rssScore
                         });
                         feedlist.add(m);
+                        rssScore+=3
                     });
                 }
 
@@ -190,6 +191,9 @@ var FeedList = Backbone.Collection.extend({
             dataType: "json",
             success: function(data) {
                 _(data).each(function(pic) {
+                    if  (pic.num_likes > 100){
+                        pic.num_likes = Math.floor(pic.num_likes/6)
+                    }
                     var m = new InstaItem({
                         id: pic.id,
                         name: pic.name,
@@ -219,7 +223,7 @@ var FeedList = Backbone.Collection.extend({
                         username: tweet.username,
                         text: tweet.text,
                         date: new Date(tweet.created_at),
-                        score: tweet.retweet_count + tweet.favorite_count
+                        score: (tweet.retweet_count + tweet.favorite_count)*6
                     });
                     feedlist.add(m);
                 }
