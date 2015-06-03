@@ -54,7 +54,7 @@ def instagram():
 		"name": media.user.full_name,
 		"username": media.user.username,
 		"caption": media.caption.text if media.caption else "",
-		"num_likes": len(media.likes),
+		"num_likes": media.like_count,
 		"created_time": media.created_time.replace(tzinfo=from_zone_gmt).astimezone(to_zone).strftime("%c"),
 		"url": media.images['standard_resolution'].url
 	} for media in your_location])
