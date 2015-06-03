@@ -48,7 +48,7 @@ app = Flask(__name__)
 def twitter():
 
     public_tweets = twitter_api.list_timeline(
-        slug='northwestern-university', owner_screen_name='@aljohri', count=100)
+        slug='northwestern-university', owner_screen_name='@annaselon', count=100)
 
     results = json.dumps([{
         "id": tweet.id,
