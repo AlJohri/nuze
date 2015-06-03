@@ -25,9 +25,13 @@ cp .secret.example .secret
 # edit .secret to add api keys
 ```
 
+## Frontend Links
+- http://aljohri.github.io/nuze/
+
 ## Backend Links
 - http://nuze.herokuapp.com/instagram
 - http://nuze.herokuapp.com/twitter
+- http://nuze.herokuapp.com/yikyak
 
 ## Deploy
 ```
