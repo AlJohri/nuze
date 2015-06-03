@@ -70,35 +70,24 @@ var TweetItem = Backbone.Model.extend({
 });
 
 var YakItem = Backbone.Model.extend({
-    constructor: function() {
-        arguments[0].date = new Date(arguments[0].time);
-        arguments[0].text = arguments[0].message;
-        arguments[0].score = Math.floor(arguments[0].likes/4);
-        Backbone.Model.apply(this, arguments);
-    },
+    // constructor: function() {
+    //     arguments[0].date = new Date(arguments[0].time);
+    //     arguments[0].text = arguments[0].message;
+    //     arguments[0].score = Math.floor(arguments[0].likes/4);
+    //     Backbone.Model.apply(this, arguments);
+    // },
     idAttribute: "id",
     defaults: { source: "Yik Yak", logo: "img/yikyaklogo.png", message: "" }
 });
+
 var InstaItem = Backbone.Model.extend({
     idAttribute: "id",
     defaults: { source: "Instagram", logo: "img/instagramlogo.gif" }
 });
+
 var RSSItem = Backbone.Model.extend({
     idAttribute: "url",
     defaults: { source: "RSS", } // logo from ajax call
-});
-
-// var TweetList = Backbone.Collection.extend({ model: TweetItem });
-// var InstaList = Backbone.Collection.extend({ model: InstaList });
-// var RSSList = Backbone.Collection.extend({ model: RSSItem });
-
-var YakList = Backbone.Firebase.Collection.extend({
-    initialize: function() {
-        this.name = "YakItem";
-    },
-    url: new Firebase('https://aljohri-nutopyak.firebaseio.com/yaks').orderByChild("likes").limitToLast(20),
-    model: YakItem,
-    autoSync: true
 });
 
 var FeedList = Backbone.Collection.extend({
@@ -245,6 +234,26 @@ var FeedList = Backbone.Collection.extend({
 
         deferreds.push(deferred);
 
+        console.log("fetching yik yak...");
+
+        var deferred = $.ajax({
+            url: "https://nuze.herokuapp.com/yikyak",
+            dataType: "json",
+            success: function(data) {
+                _(data).each(function(yak) {
+                    var m = new YakItem({
+                        id: yak.message_id,
+                        text: yak.message,
+                        date: new Date(yak.time),
+                        score: Math.floor(arguments[0].likes/4)
+                    });
+                    feedlist.add(m);
+                }
+            )}
+        });
+
+        deferreds.push(deferred);
+
         console.log(deferreds);
 
         $.when.apply($, deferreds).done(function() {
@@ -295,14 +304,6 @@ var LargeItemView = Backbone.View.extend({
 // Populate Models
 
 var feedlist = new FeedList();
-
-var yaklist = new YakList();
-yaklist.on('add', function(yak) {
-    if (yak.attributes.message != "") {
-        feedlist.add(yak);
-    }
-});
-
 var feedview =  new FeedView({collection: feedlist});
 
 $("#newbtn").click(function() {
@@ -319,7 +320,6 @@ $("#popularbtn").click(function() {
 
 setInterval(function(){
     feedview.collection.fetchFeeds({success: function() { feedview.render(); } });
-    console.log("hullo");
 }, 10000);
 
 
