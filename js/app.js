@@ -11,7 +11,7 @@ var FeedView = Backbone.View.extend({
         $(window).scroll(this.detectScroll); // binds the detectScroll functions to the window scroll event
         self.collection.fetchFeeds({
             success: function() {
-                self.listenTo(self.collection, 'add', self.render)
+                // self.listenTo(self.collection, 'add', self.render)
                 self.render();
                 $(".loading-icon").hide();
                 $(".feed-wrapper").fadeIn();
@@ -316,3 +316,11 @@ $("#popularbtn").click(function() {
     $("#newbtn").removeClass("disabled");
     $("#popularbtn").addClass("disabled");
 });
+
+setInterval(function(){
+    feedview.collection.fetchFeeds({success: function() { feedview.render(); } });
+    console.log("hullo");
+}, 10000);
+
+
+
