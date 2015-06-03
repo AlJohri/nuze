@@ -59,6 +59,6 @@ $(document).ready(function(){
             });
         }
      },
-     10000  /* 10000 ms = 10 sec */
+     5000  /* 10000 ms = 10 sec */
     );
 });
