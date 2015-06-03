@@ -318,7 +318,7 @@ $("#popularbtn").click(function() {
 
 setInterval(function(){
     feedview.collection.fetchFeeds({success: function() { feedview.render(); } });
-}, 10000);
+}, 60000);
 
 
 
