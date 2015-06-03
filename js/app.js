@@ -2,6 +2,8 @@
 // TODO name space stuff
 // made it global so its easier to debug for now
 
+// var currentItem = undefined;
+
 var FeedView = Backbone.View.extend({
     el: "#feed",
     initialize: function(options) {
@@ -32,6 +34,8 @@ var FeedView = Backbone.View.extend({
 
                 $(item).parent().children(".active").removeClass("active");
                 $(item).addClass("active");
+                // currentItem = item;
+                // console.log(currentItem);
 
                 var cid = item.getAttribute('data-cid');
                 var currentModel = feedlist.get(cid);
@@ -316,9 +320,12 @@ $("#popularbtn").click(function() {
     $("#popularbtn").addClass("disabled");
 });
 
-setInterval(function(){
-    feedview.collection.fetchFeeds({success: function() { feedview.render(); } });
-}, 60000);
+// setInterval(function(){
+//     feedview.collection.fetchFeeds({success: function() {
+//         feedview.render();
+//         // $(currentItem).addClass("active");
+//     }});
+// }, 10000);
 
 
 
