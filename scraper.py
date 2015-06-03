@@ -10,8 +10,11 @@ import logging
 import requests
 from dateutil import tz
 logging.basicConfig()
+logging.getLogger("requests").setLevel(logging.DEBUG)
 
 requests.packages.urllib3.disable_warnings()
+
+yakker = None
 
 def yak_to_dict(yak):
     yak_dict = copy.deepcopy(dict(yak.__dict__))
@@ -74,16 +77,26 @@ def instagram():
     } for media in your_location])
     return results
 
+def make_new_yakker():
+    global yakker
+    yakker = pyak.Yakker()
+    yakker.enable_HTTP_debugging()
+    print "New yakker registered with ID: %s" % yakker.id
+    return yakker
+
 @app.route('/yikyak')
 @cross_origin()
 def yikyak():
+    global yakker
     results = []
-    yakker = pyak.Yakker()
-    print "New yakker registered with ID: %s" % yakker.id
+    yakker = yakker or make_new_yakker()
     locations = { "tech": pyak.Location(42.057796,-87.676634) }
     yakker.update_location(locations['tech'])
     yaks = yakker.get_area_tops()
     print "Found %d yaks" % len(yaks)
+    if len(yaks) == 0:
+        yakker = None
+        return json.dumps([])
     for yak in yaks: yak.message_id = yak.message_id.replace("R/", "")
     results = json.dumps([yak_to_dict(yak) for yak in yaks])
     return results
