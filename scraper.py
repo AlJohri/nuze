@@ -21,10 +21,6 @@ def yak_to_dict(yak):
     yak_dict['gmt'] = yak_dict['gmt'].strftime("%c")
     return yak_dict
 
-yakker = pyak.Yakker()
-print "New yakker registered with ID: %s" % yakker.id
-locations = { "tech": pyak.Location(42.057796,-87.676634) }
-
 from_zone_est = tz.gettz('America/New York')
 from_zone_gmt = tz.gettz('GMT')
 to_zone = tz.gettz('America/Chicago')
@@ -82,8 +78,12 @@ def instagram():
 @cross_origin()
 def yikyak():
     results = []
+    yakker = pyak.Yakker()
+    print "New yakker registered with ID: %s" % yakker.id
+    locations = { "tech": pyak.Location(42.057796,-87.676634) }
     yakker.update_location(locations['tech'])
     yaks = yakker.get_area_tops()
+    print "Found %d yaks" % len(yaks)
     for yak in yaks: yak.message_id = yak.message_id.replace("R/", "")
     results = json.dumps([yak_to_dict(yak) for yak in yaks])
     return results
