@@ -245,7 +245,7 @@ var FeedList = Backbone.Collection.extend({
                         id: yak.message_id,
                         text: yak.message,
                         date: new Date(yak.time),
-                        score: Math.floor(arguments[0].likes/4)
+                        score: Math.floor(yak.likes/4)
                     });
                     feedlist.add(m);
                 }
