@@ -3,6 +3,7 @@ import base64
 import hmac
 import json
 import requests
+import random
 import time
 import datetime
 import urllib
@@ -150,10 +151,37 @@ class Yak:
 
 class Yakker:
     base_url = "https://us-central-api.yikyakapi.net/api/"
+    version = "2.6.1e"
     # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E)"
     # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4; SM-G900T Build/JDQ39) 2.6.1"
-    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E) 2.6.1"
+    # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E) 2.6.1"
+    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Nexus 5 Build/JDQ39E) " + version
     HTTP_debugging = False;
+
+    base = ["Dalvik/1.6.0 (Linux; U; Android 4.4.4; ", " Build/", ")"]
+
+    devices = [
+        "Nexus 4",
+        "Nexus 5",
+        "HTC One_M8",
+        "SM-N900V",
+        "XT1080",
+        "SM-G900V",
+        "SCH-I545"
+    ]
+
+    # Select random device name
+    device = random.choice(devices)
+    # // Generate random build ID
+    # var build = API.Yakker.gen_random(2);
+    # build = (build[0] + build[1])[0:6].upper();
+
+    # var useragent = base[0] + device + base[1] + build + base[2];
+    # // Save useragent to roaming settings, since we should be consistent
+    # roamingSettings.values.useragent = useragent;
+
+    # // Append API version
+    # useragent += " " + API.Yakker.version;
 
     def __init__(self, user_id=None, location=None, force_register=False):
         if location is None:
@@ -240,7 +268,7 @@ class Yakker:
     def get(self, page, params):
         url = self.base_url + page
 
-        params['version'] = "2.6.1" #'2.1.001' # 2.3.3.1
+        params['version'] = self.version #"2.6.1" #'2.1.001' # 2.3.3.1
 
         if params['lat'] or params['long']:
             params['accuracy'] = "10000.0"
