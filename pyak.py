@@ -155,10 +155,10 @@ class Yakker:
     # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E)"
     # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4; SM-G900T Build/JDQ39) 2.6.1"
     # user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E) 2.6.1"
-    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Nexus 5 Build/JDQ39E) " + version
+    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; %s Build/JDQ39E) " + version
     HTTP_debugging = False;
 
-    base = ["Dalvik/1.6.0 (Linux; U; Android 4.4.4; ", " Build/", ")"]
+    # base = ["Dalvik/1.6.0 (Linux; U; Android 4.4.4; ", " Build/", ")"]
 
     devices = [
         "Nexus 4",
@@ -172,6 +172,8 @@ class Yakker:
 
     # Select random device name
     device = random.choice(devices)
+
+    user_agent = user_agent % device
     # // Generate random build ID
     # var build = API.Yakker.gen_random(2);
     # build = (build[0] + build[1])[0:6].upper();
