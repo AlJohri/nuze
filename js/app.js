@@ -17,6 +17,14 @@ var FeedView = Backbone.View.extend({
                 self.render();
                 $(".loading-icon").hide();
                 $(".feed-wrapper").fadeIn();
+
+                var item = self.$el.children()[1];
+                var cid = item.getAttribute('data-cid');
+                var currentModel = feedlist.get(cid);
+                currentItemId = cid;
+                var bigitem = new LargeItemView({model: currentModel}).render().$el;
+                $(item).addClass("active");
+                $("#big_item_spot").html(bigitem);
             }
         });
         // this.collection.on('sort', this.render, this);
