@@ -84,12 +84,9 @@ def yikyak():
     results = []
     yakker.update_location(locations['tech'])
     yaks = yakker.get_area_tops()
-    print "Found %d yaks" % len(yaks)
-    for i, yak in enumerate(yaks):
-        yak.message_id = yak.message_id.replace("R/", "")
-        results.append(yak_to_dict(yak))
-        print i, yak.time.strftime("%m/%e/%y %I:%M:%S"), yak.message_id, yak.likes, yak.message
-    return json.dumps(results)
+    for yak in yaks: yak.message_id = yak.message_id.replace("R/", "")
+    results = json.dumps([yak_to_dict(yak) for yak in yaks])
+    return results
 
 if __name__ == '__main__':
     app.debug = True
