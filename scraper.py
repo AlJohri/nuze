@@ -47,7 +47,8 @@ app = Flask(__name__)
 @cross_origin()
 def twitter():
 
-    public_tweets = twitter_api.list_timeline(slug='northwestern-university', owner_screen_name='@aljohri')
+    public_tweets = twitter_api.list_timeline(
+        slug='northwestern-university', owner_screen_name='@aljohri', count=100)
 
     results = json.dumps([{
         "id": tweet.id,
