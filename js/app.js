@@ -247,7 +247,7 @@ var FeedList = Backbone.Collection.extend({
         console.log("fetching yik yak...");
 
         var deferred = $.ajax({
-            url: "https://nuze.herokuapp.com/yikyak",
+            url: "http://localhost:5000/yikyak", //"https://nuze.herokuapp.com/yikyak",
             dataType: "json",
             success: function(data) {
                 _(data).each(function(yak) {
@@ -255,7 +255,7 @@ var FeedList = Backbone.Collection.extend({
                         id: yak.message_id,
                         text: yak.message,
                         date: new Date(yak.time),
-                        score: Math.floor(yak.likes/4)
+                        score: Math.floor(yak.likes/2)
                     });
                     feedlist.add(m);
                 }
