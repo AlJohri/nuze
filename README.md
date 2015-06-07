@@ -1,5 +1,13 @@
 # NUze
 
+## Setup
+```
+mkvirtualenv nuze
+pip install -r requirements.txt
+cp .secret.example .secret
+# edit .secret to add api keys
+```
+
 ## Usage
 
 ```
@@ -15,14 +23,6 @@ OR
 workon nuze
 foreman start -e .secret
 open index.html
-```
-
-## Setup
-```
-mkvirtualenv nuze
-pip install -r requirements.txt
-cp .secret.example .secret
-# edit .secret to add api keys
 ```
 
 ## Frontend Links
